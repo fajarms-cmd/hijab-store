@@ -178,6 +178,25 @@ body::after {
   body::after { animation: drift 22s ease-in-out infinite alternate; }
   .scrim { backdrop-filter: blur(4px); animation: scrimIn .5s ease-out; }
 }
+
+/* ===== Gelembung kecil ===== */
+#bubbles { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+#bubbles i {
+  position: absolute; bottom: -40px; left: var(--x); width: var(--s); height: var(--s); border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.85), color-mix(in srgb, var(--accent) 22%, transparent) 55%, transparent 72%);
+  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  opacity: 0;
+}
+@keyframes bubbleUp {
+  0%   { transform: translate3d(0, 0, 0) scale(.7); opacity: 0; }
+  10%  { opacity: .85; }
+  50%  { transform: translate3d(var(--dx), -55vh, 0) scale(1); }
+  90%  { opacity: .6; }
+  100% { transform: translate3d(calc(var(--dx) * -1), -115vh, 0) scale(1.15); opacity: 0; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  #bubbles i { animation: bubbleUp var(--d) linear var(--t) infinite; }
+}
 </style>
 
 <template id="shell">
@@ -415,6 +434,19 @@ body::after {
   });
 
   renderBrand(); renderFilters(); renderGrid(); renderCart();
+
+  /* Gelembung kecil di latar */
+  (function () {
+    var box = document.createElement("div"), h = "", n = 22, k;
+    box.id = "bubbles"; box.setAttribute("aria-hidden", "true");
+    for (k = 0; k < n; k++) {
+      var s = (6 + Math.random() * 16).toFixed(1), x = (Math.random() * 100).toFixed(1),
+          dx = ((Math.random() * 60) - 30).toFixed(0), d = (12 + Math.random() * 14).toFixed(1), t = (-Math.random() * 20).toFixed(1);
+      h += '<i style="--s:' + s + 'px;--x:' + x + '%;--dx:' + dx + 'px;--d:' + d + 's;--t:' + t + 's"></i>';
+    }
+    box.innerHTML = h;
+    document.body.appendChild(box);
+  })();
 
   /* ===== Kelola toko (hanya muncul untuk pemilik / editor) ===== */
   var artifactApi = null, assetsApi = null, draft = null, uploadIndex = -1;
