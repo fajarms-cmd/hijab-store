@@ -1,0 +1,335 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Afda Hijab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap">
+<style>
+/* Layout: sticky header with cart, compact hero, filter chips, product grid, 3-step order guide, footer. Cart is a side drawer that sends the order to WhatsApp. */
+:root {
+  --bg: #F1F3EF;
+  --surface: #FFFFFF;
+  --fg: #14211E;
+  --muted: #5B6B66;
+  --line: #D6DCD6;
+  --accent: #E8A600;
+  --accent-ink: #14211E;
+  --deep: #14211E;
+  --deep-fg: #F1F3EF;
+  --tile-l: 82%;
+  --font-display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1614; --surface: #17211E; --fg: #ECF0EA; --muted: #98A8A2; --line: #2B3A36;
+    --accent: #F0B72F; --accent-ink: #14211E; --deep: #17211E; --deep-fg: #ECF0EA; --tile-l: 26%;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1614; --surface: #17211E; --fg: #ECF0EA; --muted: #98A8A2; --line: #2B3A36;
+  --accent: #F0B72F; --accent-ink: #14211E; --deep: #17211E; --deep-fg: #ECF0EA; --tile-l: 26%;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 40px;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--bg); }
+.wrap { max-width: 1080px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.1; text-wrap: balance; margin: 0; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 12px; }
+.brand { font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; letter-spacing: -0.02em; }
+.brand span { color: var(--accent); }
+.cartbtn { display: inline-flex; align-items: center; gap: 8px; background: var(--deep); color: var(--deep-fg); border: 0; border-radius: 999px; padding: 9px 16px; font-weight: 700; }
+.cartbtn .n { background: var(--accent); color: var(--accent-ink); border-radius: 999px; min-width: 24px; height: 24px; display: grid; place-items: center; font-size: .85rem; padding: 0 6px; }
+
+.hero { padding-block: 44px 28px; display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px; align-items: end; }
+.hero h1 { font-size: clamp(2.2rem, 6.2vw, 4.4rem); font-weight: 800; letter-spacing: -0.03em; }
+.hero h1 em { font-style: normal; background: linear-gradient(transparent 62%, var(--accent) 62% 92%, transparent 92%); }
+.hero p { color: var(--muted); max-width: 40ch; margin: 0 0 14px; }
+.hero a.cta { display: inline-block; background: var(--accent); color: var(--accent-ink); font-weight: 700; padding: 12px 20px; border-radius: 10px; text-decoration: none; }
+.hero > * { min-width: 0; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; padding-block: 10px 20px; }
+.chip { border: 1px solid var(--line); background: transparent; border-radius: 999px; padding: 7px 16px; font-weight: 500; }
+.chip[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: flex; flex-direction: column; min-width: 0; }
+.tile { --veil: hsl(var(--h) 36% calc(73% - 0.43 * var(--tile-l))); --veil2: hsl(var(--h) 36% calc(60% - 0.43 * var(--tile-l))); aspect-ratio: 4 / 3; overflow: hidden; display: grid; place-items: center; background: hsl(var(--h) 34% var(--tile-l)); color: hsl(var(--h) 45% 22%); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .tile { color: hsl(var(--h) 50% 78%); } }
+:root[data-theme="dark"] .tile { color: hsl(var(--h) 50% 78%); }
+.tile svg { width: 100%; height: 100%; display: block; }
+.info { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.info h3 { font-size: 1.1rem; font-weight: 700; }
+.cat { font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.price { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+.row { display: flex; gap: 8px; margin-top: auto; align-items: stretch; }
+select, input, textarea { font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 9px 10px; min-width: 0; }
+select { flex: 1; }
+.add { background: var(--deep); color: var(--deep-fg); border: 0; border-radius: 8px; padding: 9px 14px; font-weight: 700; }
+.add.done { background: var(--accent); color: var(--accent-ink); }
+
+.how { margin-top: 56px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; border-top: 2px solid var(--fg); padding-top: 22px; }
+.how > div { min-width: 0; }
+.how h2 { font-size: 1.15rem; margin-bottom: 4px; }
+.how p { margin: 0; color: var(--muted); }
+.how b { font-family: var(--font-display); color: var(--accent); font-size: 1.8rem; display: block; line-height: 1; margin-bottom: 8px; }
+
+footer { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line); color: var(--muted); font-size: .92rem; display: flex; flex-wrap: wrap; gap: 8px 28px; justify-content: space-between; }
+footer strong { color: var(--fg); }
+.copy { background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 2px 10px; margin-left: 6px; font-size: .85rem; }
+
+.scrim { position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 40; }
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 100%); background: var(--surface); z-index: 50; display: flex; flex-direction: column; box-shadow: -8px 0 32px rgba(0,0,0,.25);
+  padding: calc(16px + env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) 16px; gap: 14px; }
+.drawer header { display: flex; justify-content: space-between; align-items: center; }
+.drawer h2 { font-size: 1.4rem; }
+.x { background: transparent; border: 1px solid var(--line); border-radius: 8px; width: 38px; height: 38px; font-size: 1.2rem; }
+.items { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+.empty { color: var(--muted); padding: 24px 0; }
+.line { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+.line .nm { font-weight: 700; min-width: 0; overflow-wrap: anywhere; }
+.line .vr { color: var(--muted); font-size: .88rem; }
+.line .sub { font-variant-numeric: tabular-nums; font-weight: 700; text-align: right; }
+.qty { display: inline-flex; align-items: center; gap: 4px; margin-top: 4px; }
+.qty button { width: 30px; height: 30px; border: 1px solid var(--line); background: var(--bg); border-radius: 6px; }
+.qty span { min-width: 28px; text-align: center; font-variant-numeric: tabular-nums; }
+.form { display: grid; gap: 8px; }
+.form label { font-size: .82rem; color: var(--muted); display: grid; gap: 4px; }
+.total { display: flex; justify-content: space-between; font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; }
+.wa { display: block; text-align: center; background: #1FA855; color: #fff; text-decoration: none; font-weight: 700; padding: 14px; border-radius: 10px; }
+.wa[aria-disabled="true"] { opacity: .45; pointer-events: none; }
+.hint { font-size: .82rem; color: var(--muted); margin: 0; }
+
+@media (max-width: 720px) {
+  .hero { grid-template-columns: 1fr; padding-block: 28px 18px; }
+  .how { grid-template-columns: 1fr; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .info { padding: 10px 12px 12px; }
+  .row { flex-direction: column; }
+}
+@media (prefers-reduced-motion: no-preference) { .card { transition: transform .15s; } .card:hover { transform: translateY(-3px); } }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">Afda <span>Hijab</span></div>
+    <button class="cartbtn" id="openCart" type="button" aria-label="Buka keranjang">Keranjang <span class="n" id="count">0</span></button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <h1>Hijab nyaman untuk <em>dipakai</em> tiap hari.</h1>
+    <div>
+      <p>Pilih produk, masukkan ke keranjang, lalu kirim pesanan lewat WhatsApp. Kami konfirmasi stok dan ongkir sebelum Anda membayar.</p>
+      <a class="cta" href="#produk">Lihat produk</a>
+    </div>
+  </section>
+
+  <section id="produk" aria-label="Katalog produk">
+    <div class="filters" id="filters" role="group" aria-label="Filter kategori"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="how" aria-label="Cara pesan">
+    <div><b>1</b><h2>Pilih &amp; masukkan keranjang</h2><p>Tentukan warna dan jumlah untuk tiap produk.</p></div>
+    <div><b>2</b><h2>Kirim lewat WhatsApp</h2><p>Isi nama dan alamat, lalu tekan tombol pesan. Daftar belanja terisi otomatis di chat.</p></div>
+    <div><b>3</b><h2>Konfirmasi &amp; bayar</h2><p>Kami cek stok, hitung ongkir, dan kirim nomor rekening. Barang dikirim setelah pembayaran.</p></div>
+  </section>
+
+  <footer>
+    <div><strong>WhatsApp</strong><br><span id="waShow"></span><button class="copy" id="copyWa" type="button">Salin</button></div>
+    <div><strong>Jam layanan</strong><br>Senin–Sabtu, 09.00–17.00 WIB</div>
+    <div><strong>Pengiriman</strong><br>Seluruh Indonesia via JNE, J&amp;T, dan SiCepat</div>
+  </footer>
+</main>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" hidden aria-label="Keranjang belanja">
+  <header><h2>Keranjang</h2><button class="x" id="closeCart" type="button" aria-label="Tutup keranjang">×</button></header>
+  <div class="items" id="items"></div>
+  <div class="form">
+    <label for="fName">Nama penerima<input id="fName" autocomplete="name" placeholder="Nama lengkap"></label>
+    <label for="fAddr">Alamat &amp; catatan<textarea id="fAddr" rows="2" placeholder="Alamat lengkap, kota, kode pos"></textarea></label>
+  </div>
+  <div class="total"><span>Total</span><span id="total">Rp0</span></div>
+  <a class="wa" id="wa" href="#" target="_blank" rel="noopener" aria-disabled="true">Pesan via WhatsApp</a>
+  <p class="hint">Ongkir belum termasuk. Kami hitung setelah Anda mengirim pesanan.</p>
+</aside>
+
+<script>
+/* ====== UBAH BAGIAN INI ====== */
+var STORE = { name: "Afda Hijab", wa: "6283128405394", show: "+62 831-2840-5394" };   // nomor WhatsApp: awali 62, tanpa + atau 0
+var PRODUCTS = [
+  { id: "voal",      name: "Hijab Segi Empat Voal",  cat: "Segi Empat", style: "segi4",    price: 79000,  h: 345, colors: ["Dusty pink", "Sage", "Mocha"] },
+  { id: "satin",     name: "Segi Empat Satin Silk",  cat: "Segi Empat", style: "segi4",    price: 69000,  h: 32,  colors: ["Champagne", "Hitam", "Navy"] },
+  { id: "pashmina",  name: "Pashmina Plisket",       cat: "Pashmina",   style: "pashmina", price: 95000,  h: 270, colors: ["Hitam", "Abu", "Mauve"] },
+  { id: "pashkaos",  name: "Pashmina Kaos Premium",  cat: "Pashmina",   style: "pashmina", price: 55000,  h: 200, colors: ["Hitam", "Putih", "Coksu"] },
+  { id: "bergo",     name: "Bergo Instan Jersey",    cat: "Instan",     style: "bergo",    price: 89000,  h: 160, colors: ["Hitam", "Sage", "Navy", "Mocha"] },
+  { id: "sport",     name: "Hijab Instan Sport",     cat: "Instan",     style: "bergo",    price: 75000,  h: 215, colors: ["Hitam", "Abu", "Biru laut"] },
+  { id: "khimar",    name: "Khimar Syar'i 2 Layer",  cat: "Syar'i",     style: "khimar",   price: 149000, h: 140, colors: ["Hitam", "Navy", "Maroon"] },
+  { id: "ciput",     name: "Inner Ciput Rajut",      cat: "Inner",      style: "ciput",    price: 25000,  h: 15,  colors: ["Hitam", "Putih", "Nude"] },
+  { id: "gelang",    name: "Gelang Manik Handmade",  cat: "Aksesoris",  style: "gelang",   price: 45000,  h: 330, colors: ["Pastel", "Hitam putih", "Earth tone"] },
+  { id: "rantai",    name: "Gelang Rantai Berlapis Emas", cat: "Aksesoris", style: "rantai", price: 65000, h: 42,  colors: ["Emas", "Perak"] },
+  { id: "bros",      name: "Bros Hijab Mutiara",     cat: "Aksesoris",  style: "bros",     price: 35000,  h: 190, colors: ["Putih", "Emas"] },
+  { id: "anting",    name: "Anting Mutiara Mini",    cat: "Aksesoris",  style: "anting",   price: 39000,  h: 20,  colors: ["Putih", "Krem"] }
+];
+/* ============================= */
+
+function veil(style) {
+  var V = 'style="fill:var(--veil)"', W = 'style="fill:var(--veil2)"', S = 'style="fill:hsl(28 46% 74%)"';
+  var L = 'style="fill:none;stroke:var(--veil2);stroke-width:2.5;stroke-linecap:round"';
+  var body = '<path d="M14 120C14 96 36 88 60 88s46 8 46 32z" ' + W + '/>';
+  var neck = '<rect x="53" y="64" width="14" height="28" ' + S + '/>';
+  var face = '<ellipse cx="60" cy="52" rx="15" ry="19" ' + S + '/>';
+  var band = '<path d="M43 47C43 28 77 28 77 47 72 38 48 38 43 47z" ' + V + '/>';
+  var parts = "";
+  if (style === "segi4") {
+    parts = '<path d="M60 14C34 14 26 36 27 58c1 14-4 24-13 36 10 8 28 12 46 12s36-4 46-12c-9-12-14-22-13-36 1-22-7-44-33-44z" ' + V + '/>' + face + band +
+      '<path d="M37 70C43 94 77 94 83 70L88 104C74 110 46 110 32 104z" ' + V + '/><path d="M44 90C54 98 66 98 76 90" ' + L + '/>';
+  } else if (style === "pashmina") {
+    parts = '<path d="M60 12C32 12 24 34 25 58c1 20-8 38-12 62h94c-4-24-13-42-12-62 1-24-7-46-35-46z" ' + V + '/>' + face + band +
+      '<path d="M33 74C45 98 75 98 87 74L92 120H28z" ' + V + '/><path d="M50 94L46 120M60 98V120M70 94L74 120" ' + L + '/>';
+  } else if (style === "bergo") {
+    parts = '<path d="M60 14C36 14 28 34 28 56c0 12-4 22-10 30 12 10 28 14 42 14s30-4 42-14c-6-8-10-18-10-30 0-22-8-42-32-42z" ' + V + '/>' + face + band +
+      '<path d="M39 70C45 92 75 92 81 70L86 94C74 104 46 104 34 94z" ' + V + '/><path d="M42 88C52 96 68 96 78 88" ' + L + '/>';
+  } else if (style === "khimar") {
+    parts = '<path d="M60 10C30 10 20 34 22 62c2 22-10 40-14 58h104c-4-18-16-36-14-58 2-28-8-52-38-52z" ' + V + '/>' + face + band +
+      '<path d="M30 78C44 100 76 100 90 78L100 120H20z" ' + V + '/><path d="M60 96V120M44 92L36 120M76 92L84 120" ' + L + '/>';
+  } else if (style === "gelang" || style === "rantai" || style === "bros" || style === "anting") {
+    var g = "", k, a, x;
+    var pearl = 'style="fill:hsl(var(--h) 30% 94%)"';
+    if (style === "gelang") {
+      for (k = 0; k < 14; k++) {
+        a = k / 14 * 6.2832;
+        g += '<circle cx="' + (60 + 30 * Math.cos(a)).toFixed(1) + '" cy="' + (60 + 30 * Math.sin(a)).toFixed(1) + '" r="7.5" style="fill:' + (k % 3 === 0 ? "hsl(var(--h) 30% 94%)" : k % 3 === 1 ? "var(--veil)" : "var(--veil2)") + '"/>';
+      }
+    } else if (style === "rantai") {
+      g = '<circle cx="60" cy="58" r="30" style="fill:none;stroke:var(--veil);stroke-width:6;stroke-dasharray:9 4"/><path d="M60 88v8" style="fill:none;stroke:var(--veil2);stroke-width:3"/><circle cx="60" cy="102" r="8" ' + V + '/>';
+    } else if (style === "bros") {
+      g = '<circle cx="60" cy="60" r="24" ' + W + '/>';
+      for (k = 0; k < 8; k++) {
+        a = k / 8 * 6.2832;
+        g += '<circle cx="' + (60 + 31 * Math.cos(a)).toFixed(1) + '" cy="' + (60 + 31 * Math.sin(a)).toFixed(1) + '" r="9" ' + V + '/>';
+      }
+      g += '<circle cx="60" cy="60" r="15" ' + pearl + '/><path d="M16 104L104 104" style="fill:none;stroke:var(--veil2);stroke-width:3;stroke-linecap:round"/>';
+    } else {
+      [38, 82].forEach(function (cx) {
+        g += '<path d="M' + cx + ' 16v20" style="fill:none;stroke:var(--veil2);stroke-width:3;stroke-linecap:round"/><circle cx="' + cx + '" cy="16" r="5" ' + V + '/><circle cx="' + cx + '" cy="38" r="5" ' + W + '/><circle cx="' + cx + '" cy="66" r="17" ' + pearl + '/><circle cx="' + cx + '" cy="66" r="17" style="fill:none;stroke:var(--veil);stroke-width:2.5"/>';
+      });
+    }
+    return '<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMid meet" aria-hidden="true">' + g + '</svg>';
+  } else {
+    parts = neck + '<path d="M60 20C38 20 30 38 31 56c0 6 2 10 5 14h48c3-4 5-8 5-14 1-18-7-36-29-36z" ' + V + '/>' + face + band + '<path d="M38 70h44" ' + L + '/>';
+    return '<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMax meet" aria-hidden="true">' + body + parts + '</svg>';
+  }
+  return '<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMax meet" aria-hidden="true">' + body + neck + parts + '</svg>';
+}
+
+var rupiah = function (n) { return "Rp" + new Intl.NumberFormat("id-ID").format(n); };
+var $ = function (id) { return document.getElementById(id); };
+var cart = [];
+try { cart = JSON.parse(localStorage.getItem("lawang-cart") || "[]"); } catch (e) { cart = []; }
+if (!Array.isArray(cart)) cart = [];
+cart = cart.filter(function (l) { return PRODUCTS.some(function (p) { return p.id === l.id; }); });
+var activeCat = "Semua";
+
+function save() { try { localStorage.setItem("lawang-cart", JSON.stringify(cart)); } catch (e) {} }
+function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+function prod(id) { return PRODUCTS.filter(function (p) { return p.id === id; })[0]; }
+
+function renderFilters() {
+  var cats = ["Semua"];
+  PRODUCTS.forEach(function (p) { if (cats.indexOf(p.cat) < 0) cats.push(p.cat); });
+  $("filters").innerHTML = cats.map(function (c) {
+    return '<button class="chip" type="button" data-cat="' + esc(c) + '" aria-pressed="' + (c === activeCat) + '">' + esc(c) + "</button>";
+  }).join("");
+}
+function renderGrid() {
+  var list = PRODUCTS.filter(function (p) { return activeCat === "Semua" || p.cat === activeCat; });
+  $("grid").innerHTML = list.map(function (p) {
+    return '<article class="card"><div class="tile" style="--h:' + p.h + '">' + veil(p.style) + '</div><div class="info">' +
+      '<div class="cat">' + esc(p.cat) + "</div><h3>" + esc(p.name) + '</h3><div class="price">' + rupiah(p.price) + "</div>" +
+      '<div class="row"><select id="v-' + p.id + '" aria-label="Warna ' + esc(p.name) + '">' +
+      p.colors.map(function (c) { return "<option>" + esc(c) + "</option>"; }).join("") +
+      '</select><button class="add" type="button" data-add="' + p.id + '">Tambah</button></div></div></article>';
+  }).join("");
+}
+function renderCart() {
+  var count = cart.reduce(function (s, l) { return s + l.q; }, 0);
+  $("count").textContent = count;
+  var total = 0;
+  $("items").innerHTML = cart.length ? cart.map(function (l, i) {
+    var p = prod(l.id), sub = p.price * l.q; total += sub;
+    return '<div class="line"><div><div class="nm">' + esc(p.name) + '</div><div class="vr">' + esc(l.v) + " · " + rupiah(p.price) + '</div>' +
+      '<div class="qty"><button type="button" data-dec="' + i + '" aria-label="Kurangi">−</button><span>' + l.q + '</span><button type="button" data-inc="' + i + '" aria-label="Tambah">+</button></div></div>' +
+      '<div class="sub">' + rupiah(sub) + "</div></div>";
+  }).join("") : '<div class="empty">Keranjang masih kosong. Pilih produk dulu, lalu tekan Tambah.</div>';
+  $("total").textContent = rupiah(total);
+  var wa = $("wa");
+  if (cart.length) {
+    var msg = "Halo " + STORE.name + ", saya mau pesan:\n" +
+      cart.map(function (l) { var p = prod(l.id); return "- " + l.q + "x " + p.name + " (" + l.v + ") = " + rupiah(p.price * l.q); }).join("\n") +
+      "\n\nTotal: " + rupiah(total);
+    var nm = $("fName").value.trim(), ad = $("fAddr").value.trim();
+    if (nm) msg += "\nNama: " + nm;
+    if (ad) msg += "\nAlamat: " + ad;
+    msg += "\n\nMohon info ongkir dan cara pembayarannya. Terima kasih!";
+    wa.href = "https://wa.me/" + STORE.wa + "?text=" + encodeURIComponent(msg);
+    wa.setAttribute("aria-disabled", "false");
+  } else {
+    wa.href = "#"; wa.setAttribute("aria-disabled", "true");
+  }
+}
+function setOpen(open) { $("drawer").hidden = !open; $("scrim").hidden = !open; if (open) $("closeCart").focus(); }
+
+document.addEventListener("click", function (e) {
+  var t = e.target;
+  if (!(t instanceof Element)) return;
+  var chip = t.closest("[data-cat]");
+  if (chip) { activeCat = chip.getAttribute("data-cat"); renderFilters(); renderGrid(); return; }
+  var add = t.closest("[data-add]");
+  if (add) {
+    var id = add.getAttribute("data-add"), v = $("v-" + id).value;
+    var hit = cart.filter(function (l) { return l.id === id && l.v === v; })[0];
+    if (hit) hit.q++; else cart.push({ id: id, v: v, q: 1 });
+    save(); renderCart();
+    add.textContent = "Masuk ✓"; add.classList.add("done");
+    setTimeout(function () { add.textContent = "Tambah"; add.classList.remove("done"); }, 1100);
+    return;
+  }
+  var inc = t.closest("[data-inc]"), dec = t.closest("[data-dec]");
+  if (inc) { cart[+inc.getAttribute("data-inc")].q++; save(); renderCart(); return; }
+  if (dec) { var i = +dec.getAttribute("data-dec"); cart[i].q--; if (cart[i].q <= 0) cart.splice(i, 1); save(); renderCart(); return; }
+});
+$("openCart").addEventListener("click", function () { setOpen(true); });
+$("closeCart").addEventListener("click", function () { setOpen(false); $("openCart").focus(); });
+$("scrim").addEventListener("click", function () { setOpen(false); });
+document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !$("drawer").hidden) setOpen(false); });
+$("fName").addEventListener("input", renderCart);
+$("fAddr").addEventListener("input", renderCart);
+
+var shown = STORE.show;
+$("waShow").textContent = shown;
+$("copyWa").addEventListener("click", function () {
+  var b = $("copyWa");
+  try {
+    navigator.clipboard.writeText("+" + STORE.wa).then(function () { b.textContent = "Tersalin"; }, function () { b.textContent = "Salin manual"; });
+  } catch (e) { b.textContent = "Salin manual"; }
+  setTimeout(function () { b.textContent = "Salin"; }, 1500);
+});
+
+renderFilters(); renderGrid(); renderCart();
+</script>
+
+</body></html>
