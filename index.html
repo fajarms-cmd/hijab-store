@@ -1,17 +1,10 @@
-<!doctype html>
-<html lang="id"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Afda Hijab</title>
+<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap">
-<style>
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0}
-img{max-width:100%}
-[hidden]{display:none!important}
-
+<style id="css">
 /* Layout: sticky header with cart, compact hero, filter chips, product grid, 3-step order guide, footer. Cart and the owner's "Kelola toko" panel are side drawers. */
 :root {
   --bg: #F1F3EF;
@@ -162,9 +155,8 @@ input[type="range"] { padding: 0; height: 38px; }
     @keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
   @keyframes bump { 0% { transform: scale(1); } 50% { transform: scale(1.25); } 100% { transform: scale(1); } }
 }
-
 </style>
-</head><body>
+
 <template id="shell">
 <header class="top">
   <div class="wrap">
@@ -212,29 +204,28 @@ input[type="range"] { padding: 0; height: 38px; }
   <a class="wa" id="wa" href="#" target="_blank" rel="noopener" aria-disabled="true">Pesan via WhatsApp</a>
   <p class="hint">Ongkir belum termasuk. Kami hitung setelah Anda mengirim pesanan.</p>
 </aside>
-</template>
-<div id="app"></div>
-<script src="produk.js"></script>
-<script>
 
+<button class="admin-open" id="admOpen" type="button" hidden>✎ Kelola toko</button>
+<div class="scrim" id="scrimA" hidden style="z-index:55"></div>
+<aside class="panel" id="panel" hidden aria-label="Kelola toko">
+  <header><h2>Kelola toko</h2><button class="x" id="admClose" type="button" aria-label="Tutup">×</button></header>
+  <div class="pbody" id="admBody"></div>
+  <div class="pfoot"><p class="hint" id="admMsg" role="status">Perubahan baru terlihat oleh pembeli setelah disimpan.</p><button class="save" id="admSave" type="button">Simpan &amp; publikasikan</button></div>
+  <input type="file" id="admFile" accept="image/*" hidden>
+</aside>
+</template>
+
+<div id="app"></div>
+
+<script id="shop-data" type="application/json">{"store":{"name":"Afda Hijab","wa":"6283128405394","show":"+62 831-2840-5394"},"products":[{"id":"voal","name":"Hijab Segi Empat Voal","cat":"Segi Empat","style":"segi4","price":79000,"h":345,"colors":["Dusty pink","Sage","Mocha"]},{"id":"satin","name":"Segi Empat Satin Silk","cat":"Segi Empat","style":"segi4","price":69000,"h":32,"colors":["Champagne","Hitam","Navy"]},{"id":"pashmina","name":"Pashmina Plisket","cat":"Pashmina","style":"pashmina","price":95000,"h":270,"colors":["Hitam","Abu","Mauve"]},{"id":"pashkaos","name":"Pashmina Kaos Premium","cat":"Pashmina","style":"pashmina","price":55000,"h":200,"colors":["Hitam","Putih","Coksu"]},{"id":"bergo","name":"Bergo Instan Jersey","cat":"Instan","style":"bergo","price":89000,"h":160,"colors":["Hitam","Sage","Navy","Mocha"]},{"id":"sport","name":"Hijab Instan Sport","cat":"Instan","style":"bergo","price":75000,"h":215,"colors":["Hitam","Abu","Biru laut"]},{"id":"khimar","name":"Khimar Syar'i 2 Layer","cat":"Syar'i","style":"khimar","price":149000,"h":140,"colors":["Hitam","Navy","Maroon"]},{"id":"ciput","name":"Inner Ciput Rajut","cat":"Inner","style":"ciput","price":25000,"h":15,"colors":["Hitam","Putih","Nude"]},{"id":"gelang","name":"Gelang Manik Handmade","cat":"Aksesoris","style":"gelang","price":45000,"h":330,"colors":["Pastel","Hitam putih","Earth tone"]},{"id":"rantai","name":"Gelang Rantai Berlapis Emas","cat":"Aksesoris","style":"rantai","price":65000,"h":42,"colors":["Emas","Perak"]},{"id":"bros","name":"Bros Hijab Mutiara","cat":"Aksesoris","style":"bros","price":35000,"h":190,"colors":["Putih","Emas"],"img":"3f4f72237de932f20203dbc93c8b3b1e"},{"id":"anting","name":"Anting Mutiara Mini","cat":"Aksesoris","style":"anting","price":39000,"h":20,"colors":["Putih","Krem"]}]}</script>
+
+<script id="app-js">
 (function () {
-  var T = window.TOKO || { nama: "Toko", wa: "", produk: [] };
-  var usedIds = {};
-  function slug(s, i) {
-    var b = String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || ("produk-" + i), id = b, n = 2;
-    while (usedIds[id]) { id = b + "-" + n++; }
-    usedIds[id] = 1; return id;
-  }
-  function hueOf(s) { var h = 0; for (var k = 0; k < s.length; k++) h = (h * 31 + s.charCodeAt(k)) % 360; return h; }
-  var WA = normWa(T.wa || "");
-  var DATA = {
-    store: { name: T.nama || "Toko", wa: WA, show: fmtWa(WA) },
-    products: (T.produk || []).map(function (p, i) {
-      var nm = String(p.nama || "Produk " + (i + 1));
-      return { id: slug(nm, i), name: nm, cat: String(p.kategori || "Lainnya"), style: p.gambar || "segi4", price: Math.max(0, Math.round(Number(p.harga) || 0)),
-        h: p.warnaLatar != null ? +p.warnaLatar : hueOf(nm), colors: (p.warna && p.warna.length) ? p.warna : ["Standar"], img: p.foto || "" };
-    })
-  };
+  var DATA = JSON.parse(document.getElementById("shop-data").textContent);
+  var STYLES = [["segi4", "Hijab segi empat"], ["pashmina", "Pashmina"], ["bergo", "Hijab instan"], ["khimar", "Khimar"], ["ciput", "Inner / ciput"], ["gelang", "Gelang manik"], ["rantai", "Gelang rantai"], ["bros", "Bros"], ["anting", "Anting"]];
+  var META = '<meta name="claude:viewport-fit-sides" content="cover">';
+  var LINKS = '<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap">';
+  var RESET_FALLBACK = ":root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}";
 
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
   var rupiah = function (n) { return "Rp" + new Intl.NumberFormat("id-ID").format(n); };
@@ -296,7 +287,7 @@ input[type="range"] { padding: 0; height: 38px; }
     return '<svg viewBox="0 0 120 120" preserveAspectRatio="xMidYMax meet" aria-hidden="true">' + body + neck + parts + '</svg>';
   }
   function tileHTML(p) {
-    return p.img ? '<img src="' + esc(p.img) + '" alt="' + esc(p.name) + '" loading="lazy">' : veil(p.style);
+    return p.img ? '<img src="/_blob/' + esc(p.img) + '" alt="' + esc(p.name) + '" loading="lazy">' : veil(p.style);
   }
 
   var app = document.getElementById("app");
@@ -402,10 +393,177 @@ input[type="range"] { padding: 0; height: 38px; }
 
   renderBrand(); renderFilters(); renderGrid(); renderCart();
 
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !$("drawer").hidden) setOpen(false);
-  });
-})();
+  /* ===== Kelola toko (hanya muncul untuk pemilik / editor) ===== */
+  var artifactApi = null, assetsApi = null, draft = null, uploadIndex = -1;
+  var admBody = $("admBody"), admMsg = $("admMsg");
+  function setMsg(t) { admMsg.textContent = t; }
 
+  function build(data) {
+    var st = document.head ? document.head.querySelector("style") : null;
+    var reset = (st && /safe-area-inset/.test(st.textContent)) ? st.textContent : RESET_FALLBACK;
+    var close = "<" + "/script>";
+    var content = "<title>" + esc(data.store.name) + "</title>" + META + LINKS +
+      '<style id="css">' + $("css").textContent + "</style>" +
+      $("shell").outerHTML + '<div id="app"></div>' +
+      '<script id="shop-data" type="application/json">' + JSON.stringify(data).replace(/</g, "\\u003c") + close +
+      '<script id="app-js">' + $("app-js").textContent + close;
+    return '<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>' + reset + "</style></head><body>" + content + "</body></html>";
+  }
+
+  function colorsText(p) { return p.colorsText != null ? p.colorsText : p.colors.join(", "); }
+  function renderAdmin() {
+    var sc = admBody.scrollTop;
+    var cats = categories(draft.products);
+    var html = '<div class="box"><h3>Toko</h3><label>Nama toko<input data-s="name" value="' + esc(draft.store.name) + '"></label>' +
+      '<label>Nomor WhatsApp<input data-s="wa" inputmode="tel" value="' + esc(draft.store.show) + '" placeholder="0812 3456 7890"></label></div>' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h3>Produk (' + draft.products.length + ')</h3><button class="addp" type="button" data-act="add">+ Tambah produk</button></div>';
+    if (!assetsApi) html += '<p class="hint">Unggah foto belum tersedia di akun ini, jadi produk memakai gambar ilustrasi.</p>';
+    html += draft.products.map(function (p, i) {
+      var ctl = ' data-i="' + i + '"';
+      return '<div class="box">' +
+        '<div class="pe-top"><div class="thumb"><div class="tile" style="--h:' + (+p.h || 0) + '">' + tileHTML(p) + '</div></div>' +
+        '<div class="pe-main"><label>Nama produk<input' + ctl + ' data-f="name" value="' + esc(p.name) + '"></label>' +
+        '<div class="f2"><label>Kategori<input' + ctl + ' data-f="cat" list="cats" value="' + esc(p.cat) + '"></label>' +
+        '<label>Harga (Rp)<input' + ctl + ' data-f="price" type="number" inputmode="numeric" min="0" value="' + esc(p.price) + '"></label></div></div></div>' +
+        '<label>Warna atau varian (pisahkan dengan koma)<input' + ctl + ' data-f="colors" value="' + esc(colorsText(p)) + '"></label>' +
+        '<div class="f2"><label>Gambar ilustrasi<select' + ctl + ' data-f="style">' +
+        STYLES.map(function (s) { return '<option value="' + s[0] + '"' + (s[0] === p.style ? " selected" : "") + ">" + s[1] + "</option>"; }).join("") +
+        '</select></label><label>Warna latar<input' + ctl + ' data-f="h" type="range" min="0" max="360" value="' + (+p.h || 0) + '"></label></div>' +
+        '<div class="pe-actions">' +
+        (assetsApi ? '<button class="mini" type="button" data-act="photo"' + ctl + '>' + (p.img ? "Ganti foto" : "Unggah foto") + '</button>' : "") +
+        (p.img ? '<button class="mini" type="button" data-act="rmphoto"' + ctl + '>Hapus foto</button>' : "") +
+        '<button class="mini" type="button" data-act="up"' + ctl + (i === 0 ? " disabled" : "") + ' aria-label="Naikkan">↑</button>' +
+        '<button class="mini" type="button" data-act="down"' + ctl + (i === draft.products.length - 1 ? " disabled" : "") + ' aria-label="Turunkan">↓</button>' +
+        (p._confirm ? '<button class="mini solid" type="button" data-act="delok"' + ctl + '>Ya, hapus</button><button class="mini" type="button" data-act="cancel"' + ctl + '>Batal</button>'
+                    : '<button class="mini danger" type="button" data-act="del"' + ctl + '>Hapus produk</button>') +
+        '</div></div>';
+    }).join("");
+    html += '<datalist id="cats">' + cats.map(function (c) { return '<option value="' + esc(c) + '">'; }).join("") + "</datalist>";
+    admBody.innerHTML = html;
+    admBody.scrollTop = sc;
+  }
+
+  function openAdmin() {
+    draft = JSON.parse(JSON.stringify(DATA));
+    renderAdmin(); setMsg("Perubahan baru terlihat oleh pembeli setelah disimpan.");
+    $("panel").hidden = false; $("scrimA").hidden = false; $("admClose").focus();
+  }
+  function closeAdmin() { $("panel").hidden = true; $("scrimA").hidden = true; $("admOpen").focus(); }
+
+  admBody.addEventListener("input", function (e) {
+    var t = e.target;
+    if (!(t instanceof HTMLInputElement)) return;
+    var s = t.getAttribute("data-s");
+    if (s) { draft.store[s === "wa" ? "show" : s] = t.value; return; }
+    var f = t.getAttribute("data-f"), i = t.getAttribute("data-i");
+    if (!f || i == null) return;
+    var p = draft.products[+i];
+    if (f === "colors") p.colorsText = t.value;
+    else if (f === "price") p.price = t.value;
+    else if (f === "h") { p.h = +t.value; var tile = t.closest(".box").querySelector(".tile"); if (tile) tile.style.setProperty("--h", t.value); }
+    else p[f] = t.value;
+  });
+  admBody.addEventListener("change", function (e) {
+    var t = e.target;
+    if (t instanceof HTMLSelectElement && t.getAttribute("data-f") === "style") {
+      draft.products[+t.getAttribute("data-i")].style = t.value; renderAdmin();
+    }
+  });
+  admBody.addEventListener("click", function (e) {
+    var b = e.target instanceof Element ? e.target.closest("[data-act]") : null;
+    if (!b) return;
+    var act = b.getAttribute("data-act"), i = +b.getAttribute("data-i"), list = draft.products;
+    if (act === "add") {
+      var cs = categories(list);
+      list.unshift({ id: "p" + Date.now().toString(36), name: "Produk baru", cat: cs[0] || "Hijab", style: "segi4", price: 50000, h: 200, colors: ["Hitam"] });
+      renderAdmin(); admBody.scrollTop = 0; return;
+    }
+    if (act === "photo") { uploadIndex = i; $("admFile").value = ""; $("admFile").click(); return; }
+    if (act === "rmphoto") { delete list[i].img; renderAdmin(); return; }
+    if (act === "up" && i > 0) { var a = list[i]; list[i] = list[i - 1]; list[i - 1] = a; renderAdmin(); return; }
+    if (act === "down" && i < list.length - 1) { var c = list[i]; list[i] = list[i + 1]; list[i + 1] = c; renderAdmin(); return; }
+    if (act === "del") { list[i]._confirm = true; renderAdmin(); return; }
+    if (act === "cancel") { delete list[i]._confirm; renderAdmin(); return; }
+    if (act === "delok") { list.splice(i, 1); renderAdmin(); return; }
+  });
+
+  function shrink(file) {
+    return new Promise(function (resolve) {
+      var url = URL.createObjectURL(file), im = new Image();
+      im.onload = function () {
+        var s = Math.min(1, 900 / Math.max(im.width, im.height)), c = document.createElement("canvas");
+        c.width = Math.round(im.width * s); c.height = Math.round(im.height * s);
+        c.getContext("2d").drawImage(im, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        c.toBlob(function (b) { resolve(b || file); }, "image/jpeg", 0.82);
+      };
+      im.onerror = function () { URL.revokeObjectURL(url); resolve(file); };
+      im.src = url;
+    });
+  }
+  $("admFile").addEventListener("change", function () {
+    var file = $("admFile").files && $("admFile").files[0], i = uploadIndex;
+    if (!file || i < 0 || !assetsApi) return;
+    setMsg("Mengunggah foto…");
+    shrink(file).then(function (blob) {
+      return assetsApi.upload(blob, { type: blob.type });
+    }).then(function (r) {
+      if (draft.products[i]) { draft.products[i].img = r.id; renderAdmin(); }
+      setMsg("Foto terpasang. Tekan Simpan agar pembeli bisa melihatnya.");
+    }, function (err) {
+      setMsg(err && err.code === "unsupported_type" ? "Format foto tidak didukung. Pakai JPG atau PNG." : "Foto gagal diunggah. Coba lagi.");
+    });
+  });
+
+  function clean() {
+    var name = String(draft.store.name || "").trim();
+    if (!name) return { error: "Nama toko tidak boleh kosong." };
+    var wa = normWa(draft.store.show);
+    if (wa.length < 10 || wa.length > 15) return { error: "Nomor WhatsApp belum benar. Contoh: 0812 3456 7890." };
+    var out = { store: { name: name, wa: wa, show: fmtWa(wa) }, products: [] };
+    for (var i = 0; i < draft.products.length; i++) {
+      var p = draft.products[i], pn = String(p.name || "").trim();
+      if (!pn) return { error: "Produk nomor " + (i + 1) + " belum ada namanya." };
+      var cols = colorsText(p).split(",").map(function (s) { return s.trim(); }).filter(Boolean);
+      var q = { id: p.id, name: pn, cat: String(p.cat || "").trim() || "Lainnya", style: p.style, price: Math.max(0, Math.round(Number(p.price) || 0)), h: Math.max(0, Math.min(360, Math.round(+p.h || 0))), colors: cols.length ? cols : ["Standar"] };
+      if (p.img) q.img = p.img;
+      out.products.push(q);
+    }
+    return { data: out };
+  }
+  $("admSave").addEventListener("click", function () {
+    var r = clean();
+    if (r.error) { setMsg(r.error); return; }
+    var btn = $("admSave");
+    btn.disabled = true; setMsg("Menyimpan…");
+    artifactApi.publish(build(r.data)).then(function () {
+      setMsg("Tersimpan. Halaman dimuat ulang.");
+    }, function (err) {
+      btn.disabled = false;
+      var c = err && err.code;
+      setMsg(c === "conflict" ? "Ada versi yang lebih baru. Halaman dimuat ulang, ulangi perubahan Anda."
+        : (c === "not_writer" || c === "not_granted") ? "Akun ini tidak punya izin untuk menyimpan."
+        : c === "too_large" ? "Datanya terlalu besar. Kurangi jumlah foto."
+        : c === "rate_limited" ? "Terlalu sering menyimpan. Tunggu sebentar lalu coba lagi."
+        : "Gagal menyimpan. Coba lagi sebentar lagi.");
+    });
+  });
+  $("admOpen").addEventListener("click", openAdmin);
+  $("admClose").addEventListener("click", closeAdmin);
+  $("scrimA").addEventListener("click", closeAdmin);
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Escape") return;
+    if (!$("panel").hidden) closeAdmin(); else if (!$("drawer").hidden) setOpen(false);
+  });
+
+  if (window.claude && typeof window.claude.use === "function") {
+    Promise.all([window.claude.use("user"), window.claude.use("artifact"), window.claude.use("assets")]).then(function (r) {
+      artifactApi = r[1]; assetsApi = r[2];
+      if (!r[0] || !artifactApi) return;
+      return r[0].canEdit().then(function (ok) { if (ok) $("admOpen").hidden = false; });
+    }).catch(function () {});
+  }
+})();
 </script>
+
 </body></html>
