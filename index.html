@@ -1,10 +1,4 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
-<title>Afda Hijab</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap">
-<style id="css">
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body><title>Afda Hijab</title><meta name="claude:viewport-fit-sides" content="cover"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap"><style id="css">
 /* Layout: sticky header with cart, compact hero, filter chips, product grid, 3-step order guide, footer. Cart and the owner's "Kelola toko" panel are side drawers. */
 :root {
   --bg: #F1F3EF;
@@ -197,9 +191,7 @@ body::after {
 @media (prefers-reduced-motion: no-preference) {
   #bubbles i { animation: bubbleUp var(--d) linear var(--t) infinite; }
 }
-</style>
-
-<template id="shell">
+</style><template id="shell">
 <header class="top">
   <div class="wrap">
     <div class="brand" id="brand"></div>
@@ -234,8 +226,8 @@ body::after {
   </footer>
 </main>
 
-<div class="scrim" id="scrim" hidden></div>
-<aside class="drawer" id="drawer" hidden aria-label="Keranjang belanja">
+<div class="scrim" id="scrim" hidden=""></div>
+<aside class="drawer" id="drawer" hidden="" aria-label="Keranjang belanja">
   <header><h2>Keranjang</h2><button class="x" id="closeCart" type="button" aria-label="Tutup keranjang">×</button></header>
   <div class="items" id="items"></div>
   <div class="form">
@@ -247,21 +239,15 @@ body::after {
   <p class="hint">Ongkir belum termasuk. Kami hitung setelah Anda mengirim pesanan.</p>
 </aside>
 
-<button class="admin-open" id="admOpen" type="button" hidden>✎ Kelola toko</button>
-<div class="scrim" id="scrimA" hidden style="z-index:55"></div>
-<aside class="panel" id="panel" hidden aria-label="Kelola toko">
+<button class="admin-open" id="admOpen" type="button" hidden="">✎ Kelola toko</button>
+<div class="scrim" id="scrimA" hidden="" style="z-index:55"></div>
+<aside class="panel" id="panel" hidden="" aria-label="Kelola toko">
   <header><h2>Kelola toko</h2><button class="x" id="admClose" type="button" aria-label="Tutup">×</button></header>
   <div class="pbody" id="admBody"></div>
   <div class="pfoot"><p class="hint" id="admMsg" role="status">Perubahan baru terlihat oleh pembeli setelah disimpan.</p><button class="save" id="admSave" type="button">Simpan &amp; publikasikan</button></div>
-  <input type="file" id="admFile" accept="image/*" hidden>
+  <input type="file" id="admFile" accept="image/*" hidden="">
 </aside>
-</template>
-
-<div id="app"></div>
-
-<script id="shop-data" type="application/json">{"store":{"name":"Afda Hijab","wa":"6283128405394","show":"+62 831-2840-5394"},"products":[{"id":"voal","name":"Hijab Segi Empat Voal","cat":"Segi Empat","style":"segi4","price":79000,"h":345,"colors":["Dusty pink","Sage","Mocha"]},{"id":"satin","name":"Segi Empat Satin Silk","cat":"Segi Empat","style":"segi4","price":69000,"h":32,"colors":["Champagne","Hitam","Navy"]},{"id":"pashmina","name":"Pashmina Plisket","cat":"Pashmina","style":"pashmina","price":95000,"h":270,"colors":["Hitam","Abu","Mauve"]},{"id":"pashkaos","name":"Pashmina Kaos Premium","cat":"Pashmina","style":"pashmina","price":55000,"h":200,"colors":["Hitam","Putih","Coksu"]},{"id":"bergo","name":"Bergo Instan Jersey","cat":"Instan","style":"bergo","price":89000,"h":160,"colors":["Hitam","Sage","Navy","Mocha"]},{"id":"sport","name":"Hijab Instan Sport","cat":"Instan","style":"bergo","price":75000,"h":215,"colors":["Hitam","Abu","Biru laut"]},{"id":"khimar","name":"Khimar Syar'i 2 Layer","cat":"Syar'i","style":"khimar","price":149000,"h":140,"colors":["Hitam","Navy","Maroon"]},{"id":"ciput","name":"Inner Ciput Rajut","cat":"Inner","style":"ciput","price":25000,"h":15,"colors":["Hitam","Putih","Nude"]},{"id":"gelang","name":"Gelang Manik Handmade","cat":"Aksesoris","style":"gelang","price":45000,"h":330,"colors":["Pastel","Hitam putih","Earth tone"]},{"id":"rantai","name":"Gelang Rantai Berlapis Emas","cat":"Aksesoris","style":"rantai","price":65000,"h":42,"colors":["Emas","Perak"]},{"id":"bros","name":"Bros Hijab Mutiara","cat":"Aksesoris","style":"bros","price":35000,"h":190,"colors":["Putih","Emas"],"img":"3f4f72237de932f20203dbc93c8b3b1e"},{"id":"anting","name":"Anting Mutiara Mini","cat":"Aksesoris","style":"anting","price":39000,"h":20,"colors":["Putih","Krem"]}]}</script>
-
-<script id="app-js">
+</template><div id="app"></div><script id="shop-data" type="application/json">{"store":{"name":"Afda Hijab","wa":"6283128405394","show":"+62 831-2840-5394"},"products":[{"id":"pmw3azl0s","name":"segi empat japan ori","cat":"Segi Empat","style":"segi4","price":50000,"h":200,"colors":["Hitam"],"img":"f69caae7740b6dffa06504e16d95f3cb"},{"id":"pmw3axqwu","name":"segi empat japan ori","cat":"Segi Empat","style":"segi4","price":50000,"h":200,"colors":["Hitam"],"img":"2e6df0145e03a65b44797ee52570e2f5"},{"id":"voal","name":"Hijab Segi Empat japan ori","cat":"Segi Empat","style":"segi4","price":50000,"h":345,"colors":["Dusty pink","Sage","Mocha"],"img":"24128d46f5c992c338ae47309710f843"},{"id":"satin","name":"Segi Empat japan ori","cat":"Segi Empat","style":"segi4","price":69000,"h":32,"colors":["Champagne","Hitam","Navy"],"img":"677f74a3e182b2627ab6b3c76e1c1ce3"},{"id":"pashmina","name":"Pashmina Plisket","cat":"Pashmina","style":"pashmina","price":95000,"h":270,"colors":["Hitam","Abu","Mauve"]},{"id":"pashkaos","name":"Pashmina Kaos Premium","cat":"Pashmina","style":"pashmina","price":55000,"h":200,"colors":["Hitam","Putih","Coksu"]},{"id":"bergo","name":"Bergo Instan Jersey","cat":"Instan","style":"bergo","price":89000,"h":160,"colors":["Hitam","Sage","Navy","Mocha"]},{"id":"sport","name":"Hijab Instan Sport","cat":"Instan","style":"bergo","price":75000,"h":215,"colors":["Hitam","Abu","Biru laut"]},{"id":"khimar","name":"Khimar Syar'i 2 Layer","cat":"Syar'i","style":"khimar","price":149000,"h":140,"colors":["Hitam","Navy","Maroon"]},{"id":"ciput","name":"Inner Ciput Rajut","cat":"Inner","style":"ciput","price":25000,"h":15,"colors":["Hitam","Putih","Nude"]},{"id":"gelang","name":"Gelang Manik Handmade","cat":"Aksesoris","style":"gelang","price":45000,"h":330,"colors":["Pastel","Hitam putih","Earth tone"]},{"id":"rantai","name":"Gelang Rantai Berlapis Emas","cat":"Aksesoris","style":"rantai","price":65000,"h":42,"colors":["Emas","Perak"]},{"id":"bros","name":"Bros Hijab Mutiara","cat":"Aksesoris","style":"bros","price":35000,"h":190,"colors":["Putih","Emas"]},{"id":"anting","name":"Anting Mutiara Mini","cat":"Aksesoris","style":"anting","price":39000,"h":20,"colors":["Putih","Krem"]}]}</script><script id="app-js">
 (function () {
   var DATA = JSON.parse(document.getElementById("shop-data").textContent);
   var STYLES = [["segi4", "Hijab segi empat"], ["pashmina", "Pashmina"], ["bergo", "Hijab instan"], ["khimar", "Khimar"], ["ciput", "Inner / ciput"], ["gelang", "Gelang manik"], ["rantai", "Gelang rantai"], ["bros", "Bros"], ["anting", "Anting"]];
@@ -619,6 +605,4 @@ body::after {
     }).catch(function () {});
   }
 })();
-</script>
-
-</body></html>
+</script></body></html>
