@@ -1,5 +1,6 @@
 <!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
 <title>Afda Hijab</title>
+<link rel="icon" href="images/logo.png">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,6 +49,7 @@ header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; 
 .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-block: 12px; }
 .brand { font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; letter-spacing: -0.02em; min-width: 0; overflow-wrap: anywhere; }
 .brand span { color: var(--accent); }
+.logo { width: 44px; height: 44px; display: block; border-radius: 50%; object-fit: cover; box-shadow: 0 2px 10px rgba(0,0,0,.2); }
 .cartbtn { display: inline-flex; align-items: center; gap: 8px; background: var(--deep); color: var(--deep-fg); border: 0; border-radius: 999px; padding: 9px 16px; font-weight: 700; flex: none; }
 .cartbtn .n { background: var(--accent); color: var(--accent-ink); border-radius: 999px; min-width: 24px; height: 24px; display: grid; place-items: center; font-size: .85rem; padding: 0 6px; }
 
@@ -156,47 +158,34 @@ input[type="range"] { padding: 0; height: 38px; }
   @keyframes bump { 0% { transform: scale(1); } 50% { transform: scale(1.25); } 100% { transform: scale(1); } }
 }
 
-/* ===== Backdrop animasi ===== */
+/* ===== Backdrop modern: aurora ===== */
 body::after {
-  content: ""; position: fixed; inset: -20%; z-index: -1; pointer-events: none;
-  background:
-    radial-gradient(40vmax 40vmax at 20% 25%, color-mix(in srgb, var(--accent) 28%, transparent), transparent 70%),
-    radial-gradient(45vmax 45vmax at 80% 30%, color-mix(in srgb, #6FB5A3 24%, transparent), transparent 70%),
-    radial-gradient(50vmax 50vmax at 50% 85%, color-mix(in srgb, #E58FA8 20%, transparent), transparent 70%);
-  filter: blur(30px);
+  content: ""; position: fixed; inset: 0; z-index: -2; pointer-events: none;
+  background-repeat: no-repeat; background-size: 65% 65%, 60% 60%, 70% 70%, 55% 55%;
+  background-position: 0% 0%, 100% 10%, 90% 100%, 5% 95%;
+  background-image:
+    radial-gradient(closest-side, color-mix(in srgb, var(--accent) 34%, transparent), transparent),
+    radial-gradient(closest-side, color-mix(in srgb, #3FB8A0 30%, transparent), transparent),
+    radial-gradient(closest-side, color-mix(in srgb, #F06A8D 26%, transparent), transparent),
+    radial-gradient(closest-side, color-mix(in srgb, #6C7CFF 22%, transparent), transparent);
 }
-@keyframes drift {
-  0%   { transform: translate3d(0, 0, 0) scale(1) rotate(0); }
-  50%  { transform: translate3d(4%, -3%, 0) scale(1.12) rotate(6deg); }
-  100% { transform: translate3d(-4%, 4%, 0) scale(1.05) rotate(-6deg); }
+@keyframes aurora {
+  0%   { background-position: 0% 0%, 100% 10%, 90% 100%, 5% 95%; }
+  33%  { background-position: 35% 22%, 70% 35%, 55% 80%, 25% 60%; }
+  66%  { background-position: 15% 45%, 85% 55%, 70% 65%, 40% 85%; }
+  100% { background-position: 0% 0%, 100% 10%, 90% 100%, 5% 95%; }
 }
 @keyframes scrimIn {
   from { opacity: 0; backdrop-filter: blur(0); }
   to   { opacity: 1; backdrop-filter: blur(4px); }
 }
 @media (prefers-reduced-motion: no-preference) {
-  body::after { animation: drift 22s ease-in-out infinite alternate; }
+  body::after { animation: aurora 26s ease-in-out infinite; }
   .scrim { backdrop-filter: blur(4px); animation: scrimIn .5s ease-out; }
 }
 
-/* ===== Gelembung kecil ===== */
-#bubbles { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
-#bubbles i {
-  position: absolute; bottom: -40px; left: var(--x); width: var(--s); height: var(--s); border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.85), color-mix(in srgb, var(--accent) 22%, transparent) 55%, transparent 72%);
-  border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
-  opacity: 0;
-}
-@keyframes bubbleUp {
-  0%   { transform: translate3d(0, 0, 0) scale(.7); opacity: 0; }
-  10%  { opacity: .85; }
-  50%  { transform: translate3d(var(--dx), -55vh, 0) scale(1); }
-  90%  { opacity: .6; }
-  100% { transform: translate3d(calc(var(--dx) * -1), -115vh, 0) scale(1.15); opacity: 0; }
-}
-@media (prefers-reduced-motion: no-preference) {
-  #bubbles i { animation: bubbleUp var(--d) linear var(--t) infinite; }
-}
+/* ===== Latar 3D ===== */
+#bg3d { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; display: block; }
 </style>
 
 <template id="shell">
@@ -259,7 +248,7 @@ body::after {
 
 <div id="app"></div>
 
-<script id="shop-data" type="application/json">{"store":{"name":"Afda Hijab","wa":"6283128405394","show":"+62 831-2840-5394"},"products":[{"id":"japanpink","img":"images/japanpink.jpg","name":"Segi Empat Japan Ori - Pink","cat":"Segi Empat","style":"segi4","price":50000,"h":345,"colors":["Pink", "Mauve"]},{"id":"japanabu","img":"images/japanabu.jpg","name":"Segi Empat Japan Ori - Abu Biru","cat":"Segi Empat","style":"segi4","price":50000,"h":200,"colors":["Abu tua", "Biru muda"]},{"id":"japanhitam","img":"images/japanhitam.jpg","name":"Segi Empat Japan Ori - Hitam Abu","cat":"Segi Empat","style":"segi4","price":50000,"h":160,"colors":["Abu muda", "Hitam", "Abu tua"]},{"id":"voal","img":"images/voal.jpg","name":"Hijab Segi Empat Voal","cat":"Segi Empat","style":"segi4","price":79000,"h":345,"colors":["Dusty pink","Sage","Mocha"]},{"id":"satin","img":"images/satin.jpg","name":"Segi Empat Satin Silk","cat":"Segi Empat","style":"segi4","price":69000,"h":32,"colors":["Champagne","Hitam","Navy"]},{"id":"pashmina","img":"images/pashmina.jpg","name":"Pashmina Plisket","cat":"Pashmina","style":"pashmina","price":95000,"h":270,"colors":["Hitam","Abu","Mauve"]},{"id":"pashkaos","img":"images/pashkaos.jpg","name":"Pashmina Kaos Premium","cat":"Pashmina","style":"pashmina","price":55000,"h":200,"colors":["Hitam","Putih","Coksu"]},{"id":"bergo","img":"images/bergo.jpg","name":"Bergo Instan Jersey","cat":"Instan","style":"bergo","price":89000,"h":160,"colors":["Hitam","Sage","Navy","Mocha"]},{"id":"sport","img":"images/sport.jpg","name":"Hijab Instan Sport","cat":"Instan","style":"bergo","price":75000,"h":215,"colors":["Hitam","Abu","Biru laut"]},{"id":"khimar","img":"images/khimar.jpg","name":"Khimar Syar'i 2 Layer","cat":"Syar'i","style":"khimar","price":149000,"h":140,"colors":["Hitam","Navy","Maroon"]},{"id":"ciput","img":"images/ciput.jpg","name":"Inner Ciput Rajut","cat":"Inner","style":"ciput","price":25000,"h":15,"colors":["Hitam","Putih","Nude"]},{"id":"gelang","img":"images/gelang.jpg","name":"Gelang Manik Handmade","cat":"Aksesoris","style":"gelang","price":45000,"h":330,"colors":["Pastel","Hitam putih","Earth tone"]},{"id":"rantai","img":"images/rantai.jpg","name":"Gelang Rantai Berlapis Emas","cat":"Aksesoris","style":"rantai","price":65000,"h":42,"colors":["Emas","Perak"]},{"id":"bros","img":"images/bros.jpg","name":"Bros Hijab Mutiara","cat":"Aksesoris","style":"bros","price":35000,"h":190,"colors":["Putih","Emas"]},{"id":"anting","img":"images/anting.jpg","name":"Anting Mutiara Mini","cat":"Aksesoris","style":"anting","price":39000,"h":20,"colors":["Putih","Krem"]}]}</script>
+<script id="shop-data" type="application/json">{"store":{"name":"Afda Hijab","wa":"6283128405394","show":"+62 831-2840-5394"},"products":[{"id":"japanpink","img":"images/japanpink.jpg","name":"Segi Empat Japan Ori - Pink","cat":"Segi Empat","style":"segi4","price":50000,"h":345,"colors":["Pink", "Mauve"]},{"id":"japanabu","img":"images/japanabu.jpg","name":"Segi Empat Japan Ori - Abu Biru","cat":"Segi Empat","style":"segi4","price":50000,"h":200,"colors":["Abu tua", "Biru muda"]},{"id":"japanhitam","img":"images/japanhitam.jpg","name":"Segi Empat Japan Ori - Hitam Abu","cat":"Segi Empat","style":"segi4","price":50000,"h":160,"colors":["Abu muda", "Hitam", "Abu tua"]},{"id":"voal","img":"images/voal.jpg","name":"Hijab Segi Empat Voal","cat":"Segi Empat","style":"segi4","price":79000,"h":345,"colors":["Dusty pink","Sage","Mocha"]},{"id":"satin","img":"images/satin.PNG","name":"Segi Empat Satin Silk","cat":"Segi Empat","style":"segi4","price":69000,"h":32,"colors":["Champagne","Hitam","Navy"]},{"id":"pashmina","img":"images/pashmina.jpg","name":"Pashmina Plisket","cat":"Pashmina","style":"pashmina","price":95000,"h":270,"colors":["Hitam","Abu","Mauve"]},{"id":"pashkaos","img":"images/pashkaos.jpg","name":"Pashmina Kaos Premium","cat":"Pashmina","style":"pashmina","price":55000,"h":200,"colors":["Hitam","Putih","Coksu"]},{"id":"bergo","img":"images/bergo.jpg","name":"Bergo Instan Jersey","cat":"Instan","style":"bergo","price":89000,"h":160,"colors":["Hitam","Sage","Navy","Mocha"]},{"id":"sport","img":"images/sport.jpg","name":"Hijab Instan Sport","cat":"Instan","style":"bergo","price":75000,"h":215,"colors":["Hitam","Abu","Biru laut"]},{"id":"khimar","img":"images/khimar.jpg","name":"Khimar Syar'i 2 Layer","cat":"Syar'i","style":"khimar","price":149000,"h":140,"colors":["Hitam","Navy","Maroon"]},{"id":"ciput","img":"images/ciput.jpg","name":"Inner Ciput Rajut","cat":"Inner","style":"ciput","price":25000,"h":15,"colors":["Hitam","Putih","Nude"]},{"id":"gelang","img":"images/gelang.jpg","name":"Gelang Manik Handmade","cat":"Aksesoris","style":"gelang","price":45000,"h":330,"colors":["Pastel","Hitam putih","Earth tone"]},{"id":"rantai","img":"images/rantai.jpg","name":"Gelang Rantai Berlapis Emas","cat":"Aksesoris","style":"rantai","price":65000,"h":42,"colors":["Emas","Perak"]},{"id":"bros","img":"images/bros.jpg","name":"Bros Hijab Mutiara","cat":"Aksesoris","style":"bros","price":35000,"h":190,"colors":["Putih","Emas"]},{"id":"anting","img":"images/anting.jpg","name":"Anting Mutiara Mini","cat":"Aksesoris","style":"anting","price":39000,"h":20,"colors":["Putih","Krem"]}]}</script>
 
 <script id="app-js">
 (function () {
@@ -355,7 +344,9 @@ body::after {
     var w = DATA.store.name.trim().split(/\s+/), html;
     if (w.length < 2) html = esc(DATA.store.name);
     else { var last = w.pop(); html = esc(w.join(" ")) + " <span>" + esc(last) + "</span>"; }
-    $("brand").innerHTML = html;
+    var nm = esc(DATA.store.name), box = $("brand");
+    box.innerHTML = '<img class="logo" src="images/logo.png" width="44" height="44" alt="' + nm + '">';
+    box.firstChild.onerror = function () { box.innerHTML = html; };
     document.title = DATA.store.name;
     $("waShow").textContent = DATA.store.show;
   }
@@ -440,17 +431,67 @@ body::after {
 
   renderBrand(); renderFilters(); renderGrid(); renderCart();
 
-  /* Gelembung kecil di latar */
+  /* ===== Latar 3D (three.js dimuat otomatis) ===== */
   (function () {
-    var box = document.createElement("div"), h = "", n = 22, k;
-    box.id = "bubbles"; box.setAttribute("aria-hidden", "true");
-    for (k = 0; k < n; k++) {
-      var s = (6 + Math.random() * 16).toFixed(1), x = (Math.random() * 100).toFixed(1),
-          dx = ((Math.random() * 60) - 30).toFixed(0), d = (12 + Math.random() * 14).toFixed(1), t = (-Math.random() * 20).toFixed(1);
-      h += '<i style="--s:' + s + 'px;--x:' + x + '%;--dx:' + dx + 'px;--d:' + d + 's;--t:' + t + 's"></i>';
+    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var sc = document.createElement("script");
+    sc.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
+    sc.onload = function () { try { init(); } catch (e) {} };
+    document.head.appendChild(sc);
+
+    function init() {
+      var T = window.THREE; if (!T) return;
+      var cv = document.createElement("canvas"); cv.id = "bg3d"; cv.setAttribute("aria-hidden", "true");
+      document.body.appendChild(cv);
+      var r = new T.WebGLRenderer({ canvas: cv, alpha: true, antialias: true });
+      r.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+      var scene = new T.Scene(), cam = new T.PerspectiveCamera(50, 1, 0.1, 60);
+      cam.position.set(0, 0, 12);
+      scene.add(new T.AmbientLight(0xffffff, 0.8));
+      var key = new T.DirectionalLight(0xffffff, 0.9); key.position.set(4, 6, 8); scene.add(key);
+      var warm = new T.PointLight(0xffd27a, 0.7, 45); warm.position.set(-8, -4, 6); scene.add(warm);
+
+      var cols = [0xE8A600, 0x3FB8A0, 0xF06A8D, 0x6C7CFF, 0xF3EBDD];
+      var geos = [new T.SphereGeometry(1, 32, 24), new T.TorusGeometry(1, 0.3, 20, 56), new T.IcosahedronGeometry(1, 0)];
+      var items = [], i, g, m, mesh;
+      for (i = 0; i < 18; i++) {
+        g = i % 3;
+        m = new T.MeshStandardMaterial({ color: cols[i % cols.length], roughness: g === 0 ? 0.22 : 0.35, metalness: g === 1 ? 0.65 : 0.12, transparent: true, opacity: 0.82 });
+        mesh = new T.Mesh(geos[g], m);
+        var sz = 0.35 + Math.random() * 0.85;
+        mesh.scale.setScalar(sz);
+        mesh.rotation.set(Math.random() * 6, Math.random() * 6, 0);
+        scene.add(mesh);
+        items.push({ mesh: mesh, x: (Math.random() - 0.5) * 20, y: (Math.random() - 0.5) * 15, z: -5 + Math.random() * 6,
+          sp: 0.25 + Math.random() * 0.5, ph: Math.random() * 6.28, rx: (Math.random() - 0.5) * 0.5, ry: 0.15 + Math.random() * 0.4, k: 0.4 + Math.random() * 1.1 });
+      }
+
+      var px = 0, raf = 0, W = 0, H = 0;
+      function size() {
+        W = window.innerWidth; H = window.innerHeight;
+        r.setSize(W, H, false); cam.aspect = W / H; cam.updateProjectionMatrix();
+      }
+      function frame(t) {
+        var sy = window.pageYOffset || 0, tt = t / 1000, it, y, j;
+        for (j = 0; j < items.length; j++) {
+          it = items[j];
+          y = ((it.y - sy * 0.004 * it.k) % 15 + 15) % 15 - 7.5;
+          it.mesh.position.set(it.x + Math.cos(tt * it.sp + it.ph) * 0.5, y + Math.sin(tt * it.sp + it.ph) * 0.6, it.z);
+          if (!reduce) { it.mesh.rotation.x += it.rx * 0.01; it.mesh.rotation.y += it.ry * 0.01; }
+        }
+        cam.position.x += (px * 1.4 - cam.position.x) * 0.04;
+        cam.lookAt(0, 0, 0);
+        r.render(scene, cam);
+      }
+      function loop(t) { frame(t); raf = requestAnimationFrame(loop); }
+      size(); window.addEventListener("resize", size);
+      if (reduce) { frame(0); window.addEventListener("resize", function () { frame(0); }); return; }
+      window.addEventListener("pointermove", function (e) { px = (e.clientX / (W || 1) - 0.5) * 2; }, { passive: true });
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) { cancelAnimationFrame(raf); raf = 0; } else if (!raf) raf = requestAnimationFrame(loop);
+      });
+      raf = requestAnimationFrame(loop);
     }
-    box.innerHTML = h;
-    document.body.appendChild(box);
   })();
 
   /* ===== Kelola toko (hanya muncul untuk pemilik / editor) ===== */
