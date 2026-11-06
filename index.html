@@ -516,7 +516,7 @@ body::after {
     var sc = admBody.scrollTop;
     var cats = categories(draft.products);
     var html = '<div class="box"><h3>Toko</h3><label>Nama toko<input data-s="name" value="' + esc(draft.store.name) + '"></label>' +
-      '<label>Nomor WhatsApp<input data-s="wa" inputmode="tel" value="' + esc(draft.store.show) + '" placeholder="0812 3456 7890"></label></div>' +
+      '<label>Nomor WhatsApp<input data-s="wa" inputmode="tel" value="' + esc(draft.store.show) + '" placeholder="089518004845"></label></div>' +
       '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h3>Produk (' + draft.products.length + ')</h3><button class="addp" type="button" data-act="add">+ Tambah produk</button></div>';
     if (!assetsApi) html += '<p class="hint">Unggah foto belum tersedia di akun ini, jadi produk memakai gambar ilustrasi.</p>';
     html += draft.products.map(function (p, i) {
